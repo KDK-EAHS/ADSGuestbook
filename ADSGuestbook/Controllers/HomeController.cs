@@ -39,6 +39,23 @@ namespace ADSGuestbook.Controllers
             return View();
         }
 
+        public async Task<IActionResult> AddComment(HomeViewModel model)
+        {
+            Comment comment = new Comment
+            {
+                Title = model.Comment.Title ?? "",
+                Body = model.Comment.Body ?? "",
+                Name = model.Comment.Name ?? "",
+                Email = model.Comment.Email ?? "",
+                CreatedDate = DateTime.Now
+            };
+
+            _context.Comment.Add(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
